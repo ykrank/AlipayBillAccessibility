@@ -1,0 +1,94 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.greenrobot.greendao'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def storefile = properties.getProperty('storeFile')
+def storepassword = properties.getProperty('storePassword')
+def keyalias = properties.getProperty('keyAlias')
+def keypassword = properties.getProperty('keyPassword')
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.github.ykrank.alipaybillaccessibility"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file(storefile)
+            storePassword storepassword
+            keyAlias keyalias
+            keyPassword keypassword
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+    dexOptions {
+        preDexLibraries = Boolean.valueOf(System.getProperty('pre-dex-libraries', 'true'))
+    }
+    sourceSets {
+        main.java.srcDirs += 'build/generated/source/greendao'
+    }
+    lintOptions {
+        abortOnError = Boolean.valueOf(System.getProperty('abort-on-error', 'true'))
+        textReport true
+        textOutput 'stdout'
+        disable 'MissingTranslation'
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    buildTypes {
+        debug {
+            multiDexEnabled true
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+//    options.compilerArgs << '-Xlint:unchecked,deprecation'
+    options.compilerArgs << "-Xmaxerrs" << "500"
+}
+
+greendao {
+    schemaVersion 1
+}
+
+dependencies {
+    implementation project(path: ':lib')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "com.android.support:design:$rootProject.supportVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.supportVersion"
+    implementation "com.android.support:percent:$rootProject.supportVersion"
+    implementation "com.android.support:preference-v14:$rootProject.supportVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
