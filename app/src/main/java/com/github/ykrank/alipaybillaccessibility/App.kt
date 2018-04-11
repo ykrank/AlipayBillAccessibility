@@ -3,6 +3,7 @@ package com.github.ykrank.alipaybillaccessibility
 import android.content.res.Configuration
 import android.os.Build
 import android.os.StrictMode
+import android.preference.PreferenceManager
 import android.support.multidex.MultiDexApplication
 import android.support.v7.app.AppCompatDelegate
 import com.github.ykrank.androidtools.AppDataProvider
@@ -27,6 +28,8 @@ class App : MultiDexApplication() {
 
     lateinit var refWatcher: RefWatcher
         private set
+
+    lateinit var prefManager:GeneralPreferencesManager
 
     override fun onCreate() {
         super.onCreate()
@@ -68,6 +71,8 @@ class App : MultiDexApplication() {
         })
         refWatcher = LeaksUtil.install(this)
         L.init(this)
+
+        prefManager = GeneralPreferencesManager(GeneralPreferencesImpl(this, PreferenceManager.getDefaultSharedPreferences(this)))
 
         UiGlobalData.init(object : UiDataProvider {
             override val refWatcher: RefWatcher?

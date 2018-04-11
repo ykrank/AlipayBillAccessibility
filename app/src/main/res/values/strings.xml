@@ -4,4 +4,5 @@
     <string name="accessibility_service_label">MainAccessibilityService</string>
     <string name="service_connected">MainAccessibilityService connected</string>
     <string name="service_unbind">MainAccessibilityService unbind</string>
+    <string name="pref_key_last_time" translatable="false">pref_key_last_time</string>
 </resources>
