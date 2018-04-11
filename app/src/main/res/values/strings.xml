@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AlipayBillAccessibility</string>
+    <string name="accessibility_service_description">Android Accessibility Services for auto parse alipay app bill</string>
+    <string name="accessibility_service_label">MainAccessibilityService</string>
+    <string name="service_connected">MainAccessibilityService connected</string>
+    <string name="service_unbind">MainAccessibilityService unbind</string>
 </resources>
