@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">AlipayBillAccessibility</string>
     <string name="accessibility_service_description">Android Accessibility Services for auto parse alipay app bill</string>
-    <string name="accessibility_service_label">MainAccessibilityService</string>
+    <string name="accessibility_service_label">AlipayAccessibilityService</string>
+    <string name="accessibility_service_description_work_clock">Auto open app if need clock</string>
+    <string name="accessibility_service_label_work_clock">WorkClockAccessibilityService</string>
     <string name="service_connected">MainAccessibilityService connected</string>
     <string name="service_unbind">MainAccessibilityService unbind</string>
     <string name="pref_key_last_time" translatable="false">pref_key_last_time</string>

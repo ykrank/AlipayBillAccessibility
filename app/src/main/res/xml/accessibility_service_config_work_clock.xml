@@ -4,7 +4,7 @@
     android:accessibilityFeedbackType="feedbackSpoken"
     android:accessibilityFlags="flagDefault"
     android:canRetrieveWindowContent="true"
-    android:packageNames="com.eg.android.AlipayGphone"
-    android:description="@string/accessibility_service_description"
+    android:packageNames="com.miui.home, com.cjsc.mobile"
+    android:description="@string/accessibility_service_description_work_clock"
     android:notificationTimeout="500"
     android:settingsActivity="com.github.ykrank.alipaybillaccessibility.ServiceSettingsActivity" />

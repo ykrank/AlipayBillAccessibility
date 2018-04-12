@@ -13,7 +13,7 @@ import com.github.ykrank.androidtools.util.L
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainAccessibilityService : AccessibilityService() {
+class WorkClockAccessibilityService : AccessibilityService() {
     private lateinit var prefManager: GeneralPreferences
     private var running = false
     private val handler = Handler(Looper.getMainLooper())
