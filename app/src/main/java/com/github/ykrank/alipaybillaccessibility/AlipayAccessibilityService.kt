@@ -2,6 +2,7 @@ package com.github.ykrank.alipaybillaccessibility
 
 import android.accessibilityservice.AccessibilityService
 import android.content.Intent
+import android.support.v4.view.accessibility.AccessibilityEventCompat
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
 import android.view.accessibility.AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
@@ -9,6 +10,8 @@ import android.view.accessibility.AccessibilityNodeInfo
 import com.github.ykrank.androidtools.extension.toast
 import com.github.ykrank.androidtools.util.L
 import com.github.ykrank.androidtools.util.RxJavaUtil
+import com.google.android.accessibility.utils.WebInterfaceUtils
+import com.google.android.accessibility.utils.compat.accessibilityservice.AccessibilityServiceCompatUtils
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import java.text.SimpleDateFormat
@@ -70,7 +73,6 @@ class AlipayAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-
         when (event?.eventType) {
             TYPE_WINDOW_STATE_CHANGED -> {
                 if (event.className == "com.alipay.mobile.bill.list.ui.BillListActivity_") {
@@ -82,7 +84,8 @@ class AlipayAccessibilityService : AccessibilityService() {
                 }
             }
             TYPE_WINDOW_CONTENT_CHANGED -> {
-                if (rootInActiveWindow.childCount > 1) {
+                val rootInActiveWindow = AccessibilityServiceCompatUtils.getRootInActiveWindow(this)
+                if (rootInActiveWindow?.childCount?:0 > 1) {
                     when (rootInActiveWindow.getChild(1).text) {
                         "账单" -> {
                             if (event.className == "android.widget.ListView") {
@@ -91,6 +94,13 @@ class AlipayAccessibilityService : AccessibilityService() {
                         }
                         "账单详情" -> {
                             L.d("onAccessibilityEvent: $event")
+                            var node1 = rootInActiveWindow.getChild(2)
+                            if (!WebInterfaceUtils.isWebContainer(node1)){
+                                node1 = node1.getChild(0)
+                                if (!WebInterfaceUtils.isWebContainer(node1)){
+                                    L.d("Not webcontainer")
+                                }
+                            }
                         }
                     }
                 }
